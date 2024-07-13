@@ -8,7 +8,7 @@ app = FastAPI()
 
 @app.get('/fetch-feddits')
 async def fetch_all_feddits(name: Optional[str] = Query(None),
-                            start_time: Optional[str] = Query(None), 
+                            start_time: Optional[str] = Query(None),
                             end_time: Optional[str] = Query(None),
                             limit: Optional[str] = Query(None),
                             sort_score: Optional[str] = Query(None)):
@@ -40,7 +40,7 @@ async def fetch_all_feddits(name: Optional[str] = Query(None),
     if sort_score:
         comments = sorted(comments, key=lambda x: x['score'], reverse=True)
     else:
-        comments = sorted(comments, key=lambda x: x['created_at'], 
+        comments = sorted(comments, key=lambda x: x['created_at'],
                           reverse=True)
 
     return comments
