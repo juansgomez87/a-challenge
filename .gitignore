@@ -2,6 +2,7 @@ streamlit/.venv/
 fastapi/.venv/
 fastapi/__pycache__/
 .idea/
+streamlit/.DS_Store
 
 
 # Byte-compiled / optimized / DLL files
