@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  lint:
+    name: Linting
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: ['3.10', '3.11']
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version:  ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install flake8
+      shell: bash
+
+    - name: Run linting
+      run: |
+        flake8 fastapi_app --max-line-length=88
+      shell: bash
+
+  test:
+    name: Testing
+    runs-on: ${{ matrix.os }}
+
+    services:
+      postgres:
+        image: postgres:15
+        ports:
+          - 5432:5432
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: mysecretpassword
+          POSTGRES_DB: db
+        options: >-
+          --health-cmd "pg_isready -U test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r fastapi/requirements.txt
+        pip install pytest pytest-cov
+      shell: bash
+
+    - name: Wait for Postgres
+      run: |
+        until pg_isready -h localhost -p 5432 -U test; do
+          echo "Waiting for postgres to be ready..."
+          sleep 1
+        done
+      shell: bash
+
+    - name: Run tests
+      run: |
+        pytest fastapi/tests --cov=fastapi_app
+      shell: bash
