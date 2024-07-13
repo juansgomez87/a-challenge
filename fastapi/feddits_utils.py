@@ -27,17 +27,17 @@ def get_sentiment(text):
 def convert_timestamp_to_date(comments):
     for comment in comments:
         timestamp = comment['created_at']
-        comment['created_at'] = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
+        comment['created_at'] = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')  # noqa: E501
     return comments
 
 
 def filter_comments_by_date(comments, start_date, end_date):
     start_date = datetime.strptime(start_date, '%Y-%m-%d')
     end_date = datetime.strptime(end_date, '%Y-%m-%d')
-    
+
     filtered_comments = [
-        comment for comment in comments 
-        if start_date <= datetime.fromtimestamp(comment['created_at']) <= end_date
+        comment for comment in comments
+        if start_date <= datetime.fromtimestamp(comment['created_at']) <= end_date  # noqa: E501
     ]
     
     return filtered_comments
@@ -52,7 +52,7 @@ def get_all_subfeddits():
 
     except requests.RequestException as e:
         # Handle any request errors
-        raise HTTPException(status_code=500, detail='Error fetching data: {}'.format(str(e)))
+        raise HTTPException(status_code=500, detail='Error fetching data: {}'.format(str(e)))  # noqa: E501
 
     sub_dict = {_['id']: _['title'] for _ in response.json()['subfeddits']}
 
@@ -69,6 +69,6 @@ def get_comments_per_id(id, lim=25):
 
     except requests.RequestException as e:
         # Handle any request errors
-        raise HTTPException(status_code=500, detail='Error fetching data: {}'.format(str(e)))
+        raise HTTPException(status_code=500, detail='Error fetching data: {}'.format(str(e)))  # noqa: E501
 
     return com
