@@ -9,9 +9,10 @@ FEDDIT_URL = 'http://feddit:8080/api/v1/comments/'
 nlp = pipeline(task='sentiment-analysis',
                model='cardiffnlp/twitter-roberta-base-sentiment-latest')
 
+
 def get_sentiment(text):
     res = nlp(text)
-    
+
     sent = res[0]['label']
     score = res[0]['score']
 
@@ -29,6 +30,7 @@ def convert_timestamp_to_date(comments):
         comment['created_at'] = datetime.fromtimestamp(timestamp).strftime('%Y-%m-%d %H:%M:%S')
     return comments
 
+
 def filter_comments_by_date(comments, start_date, end_date):
     start_date = datetime.strptime(start_date, '%Y-%m-%d')
     end_date = datetime.strptime(end_date, '%Y-%m-%d')
@@ -39,6 +41,7 @@ def filter_comments_by_date(comments, start_date, end_date):
     ]
     
     return filtered_comments
+
 
 def get_all_subfeddits():
     try:
@@ -54,6 +57,7 @@ def get_all_subfeddits():
     sub_dict = {_['id']: _['title'] for _ in response.json()['subfeddits']}
 
     return sub_dict
+
 
 def get_comments_per_id(id, lim=25):
     try:

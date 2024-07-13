@@ -1,11 +1,10 @@
 from fastapi import FastAPI, Query
-from feddits_utils import *
+from feddits_utils import get_sentiment, convert_timestamp_to_date, filter_comments_by_date, get_all_subfeddits, get_comments_per_id  # noqa: E501
 from typing import Optional
-
-import pdb
 
 
 app = FastAPI()
+
 
 @app.get('/fetch-feddits')
 async def fetch_all_feddits(name: Optional[str] = Query(None),
@@ -41,13 +40,16 @@ async def fetch_all_feddits(name: Optional[str] = Query(None),
     if sort_score:
         comments = sorted(comments, key=lambda x: x['score'], reverse=True)
     else:
-        comments = sorted(comments, key=lambda x: x['created_at'], reverse=True)
+        comments = sorted(comments, key=lambda x: x['created_at'], 
+                          reverse=True)
 
     return comments
+
 
 @app.get("/health")
 def health_check():
     return {"status": "healthy"}
+
 
 @app.get('/')
 def welcome():

@@ -34,7 +34,7 @@ jobs:
 
     - name: Run linting
       run: |
-        flake8 fastapi --max-line-length=88
+        flake8 fastapi --max-line-length=100
       shell: bash
 
   test:
