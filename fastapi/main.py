@@ -42,7 +42,6 @@ async def fetch_all_feddits(name: Optional[str] = Query(None),
     else:
         comments = sorted(comments, key=lambda x: x['created_at'],
                           reverse=True)
-
     return comments
 
 
