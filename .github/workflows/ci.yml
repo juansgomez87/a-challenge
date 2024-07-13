@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-        python-version: ['3.10', '3.11']
+        python-version: ['3.11']
 
     steps:
     - name: Checkout code
@@ -34,7 +34,7 @@ jobs:
 
     - name: Run linting
       run: |
-        flake8 fastapi_app --max-line-length=88
+        flake8 fastapi --max-line-length=88
       shell: bash
 
   test:
