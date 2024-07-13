@@ -39,7 +39,6 @@ def filter_comments_by_date(comments, start_date, end_date):
         comment for comment in comments
         if start_date <= datetime.fromtimestamp(comment['created_at']) <= end_date  # noqa: E501
     ]
-    
     return filtered_comments
 
 
