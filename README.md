@@ -1,6 +1,4 @@
-# Allianz - challenge
-
-Juan Sebastián Gómez Cañón
+# Challenge
 
 The `docker-compose.yml` file provides access to `Subfeddit comment sentiment analysis` which completes the selected task. The task is achieved by using a recent method (2022) trained on Twitter [cardiffnlp/twitter-roberta-base-sentiment-latest](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest). 
 
